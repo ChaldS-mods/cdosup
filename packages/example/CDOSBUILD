@@ -1,0 +1,30 @@
+# CDOSBUILD Template
+# ====================
+# Шаблон для создания новых пакетов CDOSUP.
+# Скопируйте в packages/<имя-пакета>/ и отредактируйте.
+#
+# Переменные:
+#   $srcdir — директория с исходниками
+#   $pkgdir — директория для установки (создать $pkgdir/usr/)
+
+pkgname="example"
+pkgver="1.0.0"
+pkgdesc="Example package template for CDOSUP"
+arch="x86_64"
+license="MIT"
+source=("https://example.com/${pkgname}-${pkgver}.tar.gz")
+depends=""
+makedepends="make, gcc"
+
+build() {
+    echo "Building ${pkgname} ${pkgver}..."
+    # ./configure --prefix=/usr
+    # make -j$(nproc)
+}
+
+package() {
+    echo "Packaging ${pkgname}..."
+    # make DESTDIR="$pkgdir" install
+    # mkdir -p "$pkgdir/usr/bin"
+    # cp binary "$pkgdir/usr/bin/"
+}

@@ -1,0 +1,7 @@
+# CDOSUP Package Database
+# Format: pkgname|pkgver|pkgdesc|arch|license|depends
+# Binary packages in pool/ can be installed with: chaldos-pkg -S <pkg>
+# Source-only packages use: chaldos-pkg -C <pkg>
+nvidia-firmware|20250601|NVIDIA GPU firmware for nouveau driver (RTX 3060+)|x86_64|custom:Redistribution of firmware required|
+fuzzel|1.11.0|Wayland-native application launcher|x86_64|MIT|wayland, pixman, fcft, freetype, fontconfig
+example|1.0.0|Template for creating CDOSUP packages|x86_64|MIT|

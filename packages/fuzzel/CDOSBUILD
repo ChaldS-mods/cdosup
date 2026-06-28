@@ -1,0 +1,26 @@
+# CDOSBUILD for fuzzel
+# ======================
+# Wayland-native application launcher (like rofi/dmenu for Wayland)
+#
+# Install with:
+#   chaldos-pkg -C fuzzel
+
+pkgname="fuzzel"
+pkgver="1.11.0"
+pkgdesc="Wayland-native application launcher (dmenu/rofi alternative)"
+arch="x86_64"
+license="MIT"
+source=("https://codeberg.org/dnkl/fuzzel/releases/download/${pkgver}/fuzzel-${pkgver}.tar.gz")
+depends="wayland, pixman, fcft, freetype, fontconfig"
+makedepends="meson, ninja, scdoc, tllist"
+
+build() {
+    cd "${srcdir}/fuzzel-${pkgver}"
+    meson setup build --prefix=/usr --buildtype=release
+    ninja -C build
+}
+
+package() {
+    cd "${srcdir}/fuzzel-${pkgver}"
+    DESTDIR="$pkgdir" ninja -C build install
+}

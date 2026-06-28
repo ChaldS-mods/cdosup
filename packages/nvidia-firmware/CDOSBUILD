@@ -1,0 +1,50 @@
+# CDOSBUILD for nvidia-firmware
+# ===============================
+# NVIDIA GPU firmware blobs (required for nouveau GSP on RTX 30xx+)
+# Source: linux-firmware repository on kernel.org
+#
+# Install with:
+#   chaldos-pkg -C nvidia-firmware
+
+pkgname="nvidia-firmware"
+pkgver="20250601"
+pkgdesc="NVIDIA GPU firmware for nouveau driver (RTX 3060, RTX 30xx/40xx)"
+arch="x86_64"
+license="custom:Redistribution of firmware required"
+source=("https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-20250601.tar.gz")
+depends=""
+makedepends="tar, gzip"
+
+# Required firmware files for RTX 3060 (GA106) and common GPUs
+FIRMWARE_FILES="
+    nvidia/ga106/gsp.bin
+    nvidia/ga106/acr.bin
+    nvidia/ga106/nvdec.bin
+    nvidia/ga107/gsp.bin
+    nvidia/ga107/acr.bin
+    nvidia/gsp.bin
+    nvidia/acr.bin
+"
+
+build() {
+    # linux-firmware extracted in srcdir
+    FW_DIR="${srcdir}/nvidia-fw"
+    mkdir -p "$FW_DIR"
+
+    # Try extracting from linux-firmware source
+    if [ -d linux-firmware-${pkgver}/nvidia ]; then
+        cp -r linux-firmware-${pkgver}/nvidia/* "$FW_DIR/" 2>/dev/null || true
+    fi
+    if [ -d nvidia ]; then
+        cp -r nvidia/* "$FW_DIR/" 2>/dev/null || true
+    fi
+}
+
+package() {
+    mkdir -p "$pkgdir/usr/lib/firmware/nvidia"
+    FW_DIR="${srcdir}/nvidia-fw"
+    if [ -d "$FW_DIR" ]; then
+        cp -r "$FW_DIR"/* "$pkgdir/usr/lib/firmware/nvidia/"
+        echo "NVIDIA firmware installed."
+    fi
+}
