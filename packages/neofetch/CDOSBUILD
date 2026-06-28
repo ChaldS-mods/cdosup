@@ -1,0 +1,22 @@
+# CDOSBUILD for neofetch
+# ========================
+# System info script. Pure bash, no compilation needed.
+
+pkgname="neofetch"
+pkgver="7.1.0"
+pkgdesc="System information tool written in bash"
+arch="x86_64"
+license="MIT"
+source=("https://raw.githubusercontent.com/dylanaraps/neofetch/${pkgver}/neofetch")
+depends="bash"
+
+build() {
+    # No compilation needed, it's a shell script
+    chmod +x neofetch
+}
+
+package() {
+    mkdir -p "$pkgdir/usr/bin"
+    cp neofetch "$pkgdir/usr/bin/"
+    mkdir -p "$pkgdir/usr/share/neofetch"
+}

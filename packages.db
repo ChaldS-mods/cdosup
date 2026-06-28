@@ -4,4 +4,9 @@
 # Source-only packages use: chaldos-pkg -C <pkg>
 nvidia-firmware|20250601|NVIDIA GPU firmware for nouveau driver (RTX 3060+)|x86_64|custom:Redistribution of firmware required|
 fuzzel|1.11.0|Wayland-native application launcher|x86_64|MIT|wayland, pixman, fcft, freetype, fontconfig
+neofetch|7.1.0|System information tool written in bash|x86_64|MIT|
+micro|2.0.14|Modern terminal text editor (single Go binary)|x86_64|MIT|
+steam|1.0.0.79|Steam digital distribution platform|x86_64|custom:Proprietary|glibc, libcurl, dbus, libx11
+nano|8.2|Small friendly terminal text editor|x86_64|GPL-3.0|ncurses
+htop|3.3.0|Interactive process viewer|x86_64|GPL-2.0|ncurses
 example|1.0.0|Template for creating CDOSUP packages|x86_64|MIT|

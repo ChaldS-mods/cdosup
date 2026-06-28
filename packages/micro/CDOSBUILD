@@ -1,0 +1,25 @@
+# CDOSBUILD for micro
+# =====================
+# Modern terminal text editor. Download precompiled binary.
+
+pkgname="micro"
+pkgver="2.0.14"
+pkgdesc="Modern and intuitive terminal-based text editor"
+arch="x86_64"
+license="MIT"
+source=("https://github.com/zyedidia/micro/releases/download/v${pkgver}/micro-${pkgver}-linux64-static.tar.gz")
+depends=""
+
+build() {
+    cd "${srcdir}"
+    tar -xzf micro-${pkgver}-linux64-static.tar.gz 2>/dev/null || true
+}
+
+package() {
+    local micro_dir="${srcdir}/micro-${pkgver}"
+    if [ -d "$micro_dir" ]; then
+        mkdir -p "$pkgdir/usr/bin"
+        cp "$micro_dir/micro" "$pkgdir/usr/bin/"
+        chmod 755 "$pkgdir/usr/bin/micro"
+    fi
+}

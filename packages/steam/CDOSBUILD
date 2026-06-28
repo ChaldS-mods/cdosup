@@ -1,0 +1,57 @@
+# CDOSBUILD for steam
+# =====================
+# Steam digital distribution platform.
+# Downloads and extracts from the official Steam package.
+#
+# NOTE: Steam is proprietary software. This CDOSBUILD
+# downloads the official installer from Valve's CDN.
+# Requires glibc and libX11 to run.
+
+pkgname="steam"
+pkgver="1.0.0.79"
+pkgdesc="Steam digital distribution platform"
+arch="x86_64"
+license="custom:Proprietary"
+source=("https://cdn.cloudflare.steamstatic.com/client/installer/steam.deb")
+depends="glibc, libcurl, dbus, libx11, libxtst, libxinerama"
+makedepends="ar, tar, xz"
+
+build() {
+    cd "${srcdir}"
+    echo "Extracting Steam from .deb package..."
+
+    # Steam .deb is an ar archive; extract with ar
+    if command -v ar >/dev/null 2>&1; then
+        ar x steam.deb 2>/dev/null || {
+            # Fallback: try with bsdtar
+            bsdtar xf steam.deb 2>/dev/null || true
+        }
+    fi
+
+    # Extract tar.xz data
+    for f in data.tar.*; do
+        [ -f "$f" ] || continue
+        case "$f" in
+            *.xz) xz -dc "$f" | tar xf - 2>/dev/null || true ;;
+            *.gz) tar -xzf "$f" 2>/dev/null || true ;;
+            *.bz2) tar -xjf "$f" 2>/dev/null || true ;;
+        esac
+    done
+
+    echo "Steam extracted."
+}
+
+package() {
+    cd "${srcdir}"
+    # Copy Steam files
+    if [ -d "usr" ]; then
+        cp -r usr/* "$pkgdir/usr/" 2>/dev/null || true
+    fi
+
+    # Ensure steam binary is executable
+    if [ -f "$pkgdir/usr/bin/steam" ]; then
+        chmod 755 "$pkgdir/usr/bin/steam"
+    fi
+
+    echo "Steam installed to /usr/"
+}

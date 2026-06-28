@@ -1,0 +1,24 @@
+# CDOSBUILD for htop
+# ====================
+# Interactive process viewer (like top, but better).
+# Requires ncurses to compile.
+
+pkgname="htop"
+pkgver="3.3.0"
+pkgdesc="Interactive process viewer"
+arch="x86_64"
+license="GPL-2.0-only"
+source=("https://github.com/htop-dev/htop/releases/download/${pkgver}/htop-${pkgver}.tar.xz")
+depends="ncurses"
+makedepends="make, gcc, pkg-config"
+
+build() {
+    cd "${srcdir}/htop-${pkgver}"
+    ./configure --prefix=/usr
+    make -j$(nproc 2>/dev/null || echo 4)
+}
+
+package() {
+    cd "${srcdir}/htop-${pkgver}"
+    make DESTDIR="$pkgdir" install
+}
